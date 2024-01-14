@@ -30,7 +30,7 @@ func NewProducaoPedidoController(useCase interfaces.ProducaoPedidoUseCase, r *ch
 
 //	@Summary	Get all producao_pedidos
 //
-//	@Tags		Items
+//	@Tags		ProducaoPedidos
 //
 //	@ID			get-all-producao_pedidos
 //
@@ -64,7 +64,7 @@ func (c *ProducaoPedidoController) GetAll() http.HandlerFunc {
 
 // @Summary	Get a producaopedido by ID
 //
-// @Tags		Items
+// @Tags		ProducaoPedidos
 //
 // @ID			get-producaopedido-by-id
 // @Produce	json
@@ -94,7 +94,7 @@ func (c *ProducaoPedidoController) GetByID() http.HandlerFunc {
 
 // @Summary	New producaopedido
 //
-// @Tags		Items
+// @Tags		ProducaoPedidos
 //
 // @ID			create-producaopedido
 // @Produce	json
@@ -127,7 +127,7 @@ func (c *ProducaoPedidoController) Create() http.HandlerFunc {
 
 // @Summary	Update a producaopedido
 //
-// @Tags		Items
+// @Tags		ProducaoPedidos
 //
 // @ID			update-producaopedido
 // @Produce	json
@@ -174,7 +174,7 @@ func (c *ProducaoPedidoController) Update() http.HandlerFunc {
 
 // @Summary	Delete a producaopedido by ID
 //
-// @Tags		Items
+// @Tags		ProducaoPedidos
 //
 // @ID			delete-producaopedido-by-id
 // @Produce	json
