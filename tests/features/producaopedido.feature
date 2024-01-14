@@ -53,7 +53,7 @@ Feature: API Producao Pedido
     {
     "PedidoID": 2,
     "Status": "CRIADO",
-    "CreatedAt": "2023-07-21T10:00:00-03:00",
+    "CreatedAt": "2023-07-21T13:00:00-03:00",
     "UpdatedAt": "0001-01-01T00:00:00Z",
     "DeletedAt": null
   }
