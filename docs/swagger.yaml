@@ -1,0 +1,131 @@
+definitions:
+  producaopedido.ProducaoPedido:
+    properties:
+      pedido_id:
+        type: integer
+      status:
+        type: string
+    type: object
+info:
+  contact:
+    email: support@fastfood.io
+    name: API Support
+    url: http://www.fastfood.io/support
+  description: Here you will find everything you need to have the best possible integration
+    with our APIs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://fastfood.io/terms/
+  title: Producao API
+  version: "1.0"
+paths:
+  /producao_pedidos:
+    get:
+      operationId: get-all-producao_pedidos
+      parameters:
+      - description: status search by status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/producaopedido.ProducaoPedido'
+        "500":
+          description: Internal Server Error
+      summary: Get all producao_pedidos
+      tags:
+      - Items
+    post:
+      operationId: create-producaopedido
+      parameters:
+      - description: ProducaoPedido data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/producaopedido.ProducaoPedido'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/producaopedido.ProducaoPedido'
+        "400":
+          description: Bad Request
+      summary: New producaopedido
+      tags:
+      - Items
+  /producao_pedidos/{id}:
+    delete:
+      operationId: delete-producaopedido-by-id
+      parameters:
+      - description: ProducaoPedido ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: Delete a producaopedido by ID
+      tags:
+      - Items
+    get:
+      operationId: get-producaopedido-by-id
+      parameters:
+      - description: ProducaoPedido ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/producaopedido.ProducaoPedido'
+        "404":
+          description: Not Found
+      summary: Get a producaopedido by ID
+      tags:
+      - Items
+    put:
+      operationId: update-producaopedido
+      parameters:
+      - description: ProducaoPedido ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: ProducaoPedido data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/producaopedido.ProducaoPedido'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/producaopedido.ProducaoPedido'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      summary: Update a producaopedido
+      tags:
+      - Items
+swagger: "2.0"

@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  producaopedidos_app:
+    container_name: producaopedidos_app
+    image: joaocampari/postech-soat2-grupo16:1.0.0
+    build: .
+    environment:
+      DATABASE_URL: "host=producaopedidos_db user=postgres password=postgres dbname=producaopedidos_db sslmode=disable TimeZone=UTC"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - producaopedidos_db
+  producaopedidos_db:
+    container_name: producaopedidos_db
+    image: postgres:15
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: producaopedidos_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./migration/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./migration/seeds/seeds.sql:/migration/seeds/seeds.sql
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
