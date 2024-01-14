@@ -54,6 +54,14 @@ app-logs: ## Show application logs
 update-docs: ## Update swagger docs
 	@swag init -d ./  --parseDependency --parseDepth 4  -o docs
 
+.PHONY: migrate-up
+migrate-up: ## Execute the database schema and seeds
+	migrate -path migration -database "$(DB_URL)" -verbose up
+
+.PHONY: migrate-drop
+migrate-drop: ## Drop the database schema
+	migrate -path migration -database "$(DB_URL)" -verbose drop
+
 .PHONY: test-bdd
 test-bdd: ### Test bdd
 	@go test -test.v -test.run ^TestFeatures$ ./tests
