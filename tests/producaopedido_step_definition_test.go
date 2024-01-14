@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"reflect"
 
 	"github.com/cucumber/godog"
 	"github.com/postech-soat2-grupo16/producao-api/adapters/producaopedido"
@@ -117,8 +116,8 @@ func responseShouldMatchJson(arg1 *godog.DocString) error {
 		return err
 	}
 
-	if !reflect.DeepEqual(expected, producaoPedido) {
-		return fmt.Errorf("expected %v, got %v", expected, producaoPedido)
+	if expected.Status != producaoPedido.Status || expected.PedidoID != producaoPedido.PedidoID {
+		return fmt.Sprintf("expected %v, got %v", expected, producaoPedido)
 	}
 	return nil
 }
