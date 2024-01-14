@@ -117,7 +117,7 @@ func responseShouldMatchJson(arg1 *godog.DocString) error {
 	}
 
 	if expected.Status != producaoPedido.Status || expected.PedidoID != producaoPedido.PedidoID {
-		return fmt.Sprintf("expected %v, got %v", expected, producaoPedido)
+		return fmt.Errorf("expected %v, got %v", expected, producaoPedido)
 	}
 	return nil
 }
