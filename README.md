@@ -9,7 +9,7 @@
 </p>
 
 ## Sobre
-API de Pagamentos.
+API de Producao - Acompanhamento de pedidos.
 
 ## Como Executar
 
