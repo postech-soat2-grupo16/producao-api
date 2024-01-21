@@ -12,13 +12,13 @@ import (
 	"github.com/postech-soat2-grupo16/producao-api/entities"
 )
 
-func parameterID(pedidoID int) error {
+func parameterID(pedidoID string) error {
 	inputs.pedidoID = pedidoID
 	return nil
 }
 
 func requestPOSTProducaoPedido() error {
-	pedidoItem := producaopedido.ProducaoPedido{PedidoID: uint32(inputs.pedidoID)}
+	pedidoItem := producaopedido.ProducaoPedido{PedidoID: inputs.pedidoID}
 	body, err := json.Marshal(pedidoItem)
 	if err != nil {
 		return err
@@ -36,12 +36,12 @@ func requestPOSTProducaoPedido() error {
 }
 
 func requestPUTProducaoPedidoWithStatus(status string) error {
-	pedidoItem := producaopedido.ProducaoPedido{PedidoID: uint32(inputs.pedidoID), Status: status}
+	pedidoItem := producaopedido.ProducaoPedido{PedidoID: inputs.pedidoID, Status: status}
 	body, err := json.Marshal(pedidoItem)
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/producao_pedidos/%d", baseURL, inputs.pedidoID), bytes.NewBuffer(body))
+	req, err := http.NewRequest(http.MethodPut, fmt.Sprintf("%s/producao_pedidos/%s", baseURL, inputs.pedidoID), bytes.NewBuffer(body))
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func statusCodeShouldBe(statusCode int) error {
 }
 
 func requestGETProducaoPedidoById() error {
-	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/producao_pedidos/%d", baseURL, inputs.pedidoID), nil)
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/producao_pedidos/%s", baseURL, inputs.pedidoID), nil)
 	if err != nil {
 		return err
 	}
@@ -122,6 +122,19 @@ func responseShouldMatchJson(arg1 *godog.DocString) error {
 	return nil
 }
 
+func requestDELETEProducaoPedidoById() error {
+	req, err := http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/producao_pedidos/%s", baseURL, inputs.pedidoID), nil)
+	if err != nil {
+		return err
+	}
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	inputs.statusCode = res.StatusCode
+	return nil
+}
+
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^Parameter ID: (\d+)$`, parameterID)
 	ctx.Step(`^request POST \/producaoPedido$`, requestPOSTProducaoPedido)
@@ -132,12 +145,13 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^request GET \/producaoPedido by "([^"]*)"$`, requestGETProducaoPedidoBy)
 	ctx.Step(`^request GET \/producaoPedido$`, requestGETProducaoPedido)
 	ctx.Step(`^response should match json:$`, responseShouldMatchJson)
+	ctx.Step(`^request DELETE \/producaoPedido by id$`, requestDELETEProducaoPedidoById)
 }
 
 var inputs Input
 
 type Input struct {
-	pedidoID   int
+	pedidoID   string
 	statusCode int
 	status     string
 	body       io.ReadCloser
