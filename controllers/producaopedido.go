@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	producaopedido "github.com/postech-soat2-grupo16/producao-api/adapters/producaopedido"
 	"github.com/postech-soat2-grupo16/producao-api/interfaces"
@@ -75,12 +74,7 @@ func (c *ProducaoPedidoController) GetAll() http.HandlerFunc {
 func (c *ProducaoPedidoController) GetByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		idStr := chi.URLParam(r, "id")
-		id, err := strconv.ParseInt(idStr, 10, 32)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		producaoPedido, err := c.useCase.GetByID(uint32(id))
+		producaoPedido, err := c.useCase.GetByID(idStr)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -146,12 +140,8 @@ func (c *ProducaoPedidoController) Update() http.HandlerFunc {
 			return
 		}
 		idStr := chi.URLParam(r, "id")
-		id, err := strconv.ParseInt(idStr, 10, 32)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		producaoPedido, err := c.useCase.Update(uint32(id), i.Status)
+
+		producaoPedido, err := c.useCase.Update(idStr, i.Status)
 		if err != nil {
 			if util.IsDomainError(err) {
 				w.WriteHeader(http.StatusUnprocessableEntity)
@@ -185,12 +175,7 @@ func (c *ProducaoPedidoController) Update() http.HandlerFunc {
 func (c *ProducaoPedidoController) Delete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		idStr := chi.URLParam(r, "id")
-		id, err := strconv.ParseInt(idStr, 10, 32)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		producaoPedido, err := c.useCase.Delete(uint32(id))
+		producaoPedido, err := c.useCase.Delete(idStr)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

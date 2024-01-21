@@ -81,3 +81,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+coverage.final.out
+coverage.out

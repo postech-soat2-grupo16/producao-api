@@ -7,8 +7,8 @@ import (
 type ProducaoPedidoGatewayI interface {
 	Save(producaoPedido entities.ProducaoPedido) (*entities.ProducaoPedido, error)
 	Update(producaoPedido entities.ProducaoPedido) (*entities.ProducaoPedido, error)
-	Delete(producaoPedidoID uint32) error
-	GetByID(producaoPedidoID uint32) (*entities.ProducaoPedido, error)
+	Delete(producaoPedidoID string) error
+	GetByID(producaoPedidoID string) (*entities.ProducaoPedido, error)
 	GetAll() ([]entities.ProducaoPedido, error)
 	GetByStatus(category string) ([]entities.ProducaoPedido, error)
 }

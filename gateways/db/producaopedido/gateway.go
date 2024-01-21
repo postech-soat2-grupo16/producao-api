@@ -34,11 +34,11 @@ func (g *Gateway) Update(item entities.ProducaoPedido) (*entities.ProducaoPedido
 	return &item, nil
 }
 
-func (g *Gateway) Delete(itemID uint32) error {
-	item := entities.ProducaoPedido{
-		PedidoID: itemID,
+func (g *Gateway) Delete(pedidoID string) error {
+	pedido := entities.ProducaoPedido{
+		PedidoID: pedidoID,
 	}
-	result := g.repository.Delete(&item)
+	result := g.repository.Delete(&pedido)
 	if result.Error != nil {
 		log.Println(result.Error)
 		return result.Error
@@ -47,7 +47,7 @@ func (g *Gateway) Delete(itemID uint32) error {
 	return nil
 }
 
-func (g *Gateway) GetByID(pedidoID uint32) (*entities.ProducaoPedido, error) {
+func (g *Gateway) GetByID(pedidoID string) (*entities.ProducaoPedido, error) {
 	item := entities.ProducaoPedido{
 		PedidoID: pedidoID,
 	}

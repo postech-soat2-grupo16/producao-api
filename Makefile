@@ -32,8 +32,8 @@ db-reset: ## Reset table registers to initial state (with seeds)
 	@docker exec -u postgres producaopedidos_db psql producaopedidos_db postgres -f /migration/seeds/seeds.sql
 
 .PHONY: test
-test: db-reset ## Execute the tests in the development environment
-	@go test ./... -count=1 -race -timeout 2m
+test: ## Execute the tests in the development environment
+	@go test -count=1 -coverprofile coverage.out -coverpkg=./... ./...; cat coverage.out | grep -v "mocks" | grep -v "othername" > coverage.final.out
 
 .PHONY: lint
 lint: ## Execute syntatic analysis in the code and autofix minor problems
@@ -62,6 +62,4 @@ migrate-up: ## Execute the database schema and seeds
 migrate-drop: ## Drop the database schema
 	migrate -path migration -database "$(DB_URL)" -verbose drop
 
-.PHONY: test-bdd
-test-bdd: ### Test bdd
-	@go test -test.v -test.run ^TestFeatures$ ./tests
+	@make db-reset; go test -count=1 -coverprofile coverage.out -coverpkg=./... ./... cat coverage.out | grep -v "mocks" | grep -v "othername" > coverage.final.out

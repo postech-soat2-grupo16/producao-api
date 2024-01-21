@@ -51,13 +51,22 @@ Feature: API Producao Pedido
     And response should match json:
     """
     {
-    "PedidoID": 2,
+    "PedidoID": "2",
     "Status": "CRIADO",
     "CreatedAt": "2023-07-21T13:00:00-03:00",
     "UpdatedAt": "0001-01-01T00:00:00Z",
     "DeletedAt": null
   }
     """
+
+  Scenario Outline: Delete BY ID
+    Given Parameter ID: <id>
+    When request DELETE /producaoPedido by id
+    Then statusCode should be <statusCode>
+    Examples:
+      | id | statusCode |
+      | 2  | 204       |
+      | 2  | 404        |
 
 
 
