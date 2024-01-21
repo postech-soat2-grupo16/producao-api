@@ -33,7 +33,7 @@ db-reset: ## Reset table registers to initial state (with seeds)
 
 .PHONY: test
 test: ## Execute the tests in the development environment
-	@go test -count=1 -coverprofile coverage.out -coverpkg=./... ./...; cat coverage.out | grep -v "mocks" | grep -v "othername" > coverage.final.out
+	@go test -count=1 -coverprofile coverage.out -json > report.json -coverpkg=./... ./...; cat coverage.out | grep -v "mocks" | grep -v "othername" > coverage.final.out
 
 .PHONY: lint
 lint: ## Execute syntatic analysis in the code and autofix minor problems
