@@ -122,6 +122,19 @@ func responseShouldMatchJson(arg1 *godog.DocString) error {
 	return nil
 }
 
+func requestGETHealthcheck() error {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/producao_pedidos/healthcheck", baseURL), nil)
+	if err != nil {
+		return err
+	}
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	inputs.statusCode = res.StatusCode
+	return nil
+}
+
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^Parameter ID: (\d+)$`, parameterID)
 	ctx.Step(`^request POST \/producaoPedido$`, requestPOSTProducaoPedido)
@@ -132,6 +145,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^request GET \/producaoPedido by "([^"]*)"$`, requestGETProducaoPedidoBy)
 	ctx.Step(`^request GET \/producaoPedido$`, requestGETProducaoPedido)
 	ctx.Step(`^response should match json:$`, responseShouldMatchJson)
+	ctx.Step(`^request GET \/healthcheck$`, requestGETHealthcheck)
 }
 
 var inputs Input

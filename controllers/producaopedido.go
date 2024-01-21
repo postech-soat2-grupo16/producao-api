@@ -24,8 +24,22 @@ func NewProducaoPedidoController(useCase interfaces.ProducaoPedidoUseCase, r *ch
 		r.Get("/{id}", controller.GetByID())
 		r.Put("/{id}", controller.Update())
 		r.Delete("/{id}", controller.Delete())
+		r.Get("/healthcheck", controller.Ping())
 	})
 	return &controller
+}
+
+// @Summary	health check endpoint
+//
+// @Tags		ProducaoPedidos
+//
+// @ID			health-check
+// @Success	200
+// @Router		/producao_pedidos/healtcheck [get]
+func (c *ProducaoPedidoController) Ping() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		json.NewEncoder(w).Encode(http.StatusOK)
+	}
 }
 
 //	@Summary	Get all producao_pedidos

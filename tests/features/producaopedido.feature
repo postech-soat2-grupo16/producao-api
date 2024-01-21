@@ -59,5 +59,13 @@ Feature: API Producao Pedido
   }
     """
 
+  Scenario Outline: Should get healthcheck
+    When request GET /healthcheck
+    Then statusCode should be <statusCode>
+
+    Examples:
+    | statusCode |
+    | 200       |
+
 
 
