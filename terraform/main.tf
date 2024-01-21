@@ -6,7 +6,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "terraform-state-soat"
-    key    = "ecs-fastfood-api/terraform.tfstate"
+    key    = "producao-api/terraform.tfstate"
     region = "us-east-1"
 
     dynamodb_table = "terraform-state-soat-locking"
@@ -14,10 +14,60 @@ terraform {
   }
 }
 
-### Task Config ###
+### Target Group + Listener
 
-resource "aws_ecs_task_definition" "task_definition_ecs" {
-  family                   = "task-definition-fast-food-app"
+resource "aws_lb_target_group" "tg_producao_api" {
+  name        = "target-group-producao-api"
+  port        = 8000
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+
+  health_check {
+    enabled             = true
+    interval            = 30
+    matcher             = "200-299"
+    path                = "/producao_pedidos/healthcheck"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+  }
+
+  tags = {
+    infra   = "target-group-producao-api"
+    service = "producao"
+  }
+}
+
+# Listener Rule that forwards the request to producao-api TG
+resource "aws_lb_listener_rule" "listener_producao_api" {
+  listener_arn = var.alb_fastfood_listener_arn
+  priority     = 300
+
+  condition {
+    path_pattern {
+      values = ["/producao_pedidos*"]
+    }
+  }
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg_producao_api.arn
+  }
+
+  tags = {
+    Name    = "alb-listener-producao"
+    infra   = "alb-listener-producao"
+    service = "producao"
+  }
+}
+
+
+### Task Config ###
+resource "aws_ecs_task_definition" "task_definition_producao_api" {
+  family                   = "task-definition-producao-api"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = var.execution_role_ecs
@@ -28,7 +78,7 @@ resource "aws_ecs_task_definition" "task_definition_ecs" {
 
   container_definitions = jsonencode([
     {
-      name      = "container-1"
+      name      = "container-producao-api"
       image     = var.ecr_image
       cpu       = 512,
       memory    = 1024,
@@ -46,13 +96,14 @@ resource "aws_ecs_task_definition" "task_definition_ecs" {
         { "name" : "DATABASE_URL", "value" : var.db_url }
       ]
 
+
       logConfiguration = {
         logDriver = "awslogs",
         options = {
           awslogs-create-group  = "true",
-          awslogs-group         = "my-ecs-logs",
+          awslogs-group         = "producao-api-container",
           awslogs-region        = "us-east-1",
-          awslogs-stream-prefix = "awslogs-container"
+          awslogs-stream-prefix = "producao"
         }
       },
     }
@@ -64,18 +115,15 @@ resource "aws_ecs_task_definition" "task_definition_ecs" {
   }
 
   tags = {
-    infra = "task-definition-ecs"
+    infra    = "task-definition-producao"
+    services = "producao"
   }
 }
 
-output "task_definition_ecs_arn" {
-  value = aws_ecs_task_definition.task_definition_ecs.arn
-}
-
-resource "aws_ecs_service" "ecs_service_api_soat" {
-  name                              = "ecs-service-api-soat"
+resource "aws_ecs_service" "ecs_service_producao_api" {
+  name                              = "ecs-service-producao-api"
   cluster                           = var.ecs_cluster
-  task_definition                   = aws_ecs_task_definition.task_definition_ecs.id
+  task_definition                   = aws_ecs_task_definition.task_definition_producao_api.id
   launch_type                       = "FARGATE"
   platform_version                  = "1.4.0"
   desired_count                     = var.desired_tasks
@@ -91,12 +139,13 @@ resource "aws_ecs_service" "ecs_service_api_soat" {
   }
 
   load_balancer {
-    target_group_arn = var.target_group_arn
-    container_name   = "container-1"
+    target_group_arn = aws_lb_target_group.tg_producao_api.arn
+    container_name   = "container-producao-api"
     container_port   = 8000
   }
 
   tags = {
-    infra = "ecs-service-api"
+    infra    = "ecs-service-producao"
+    services = "producao"
   }
 }
