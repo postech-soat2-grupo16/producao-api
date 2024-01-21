@@ -2,7 +2,7 @@ definitions:
   producaopedido.ProducaoPedido:
     properties:
       pedido_id:
-        type: integer
+        type: string
       status:
         type: string
     type: object
@@ -39,7 +39,7 @@ paths:
           description: Internal Server Error
       summary: Get all producao_pedidos
       tags:
-      - Items
+      - ProducaoPedidos
     post:
       operationId: create-producaopedido
       parameters:
@@ -60,7 +60,7 @@ paths:
           description: Bad Request
       summary: New producaopedido
       tags:
-      - Items
+      - ProducaoPedidos
   /producao_pedidos/{id}:
     delete:
       operationId: delete-producaopedido-by-id
@@ -79,7 +79,7 @@ paths:
           description: Internal Server Error
       summary: Delete a producaopedido by ID
       tags:
-      - Items
+      - ProducaoPedidos
     get:
       operationId: get-producaopedido-by-id
       parameters:
@@ -99,7 +99,7 @@ paths:
           description: Not Found
       summary: Get a producaopedido by ID
       tags:
-      - Items
+      - ProducaoPedidos
     put:
       operationId: update-producaopedido
       parameters:
@@ -127,5 +127,5 @@ paths:
           description: Not Found
       summary: Update a producaopedido
       tags:
-      - Items
+      - ProducaoPedidos
 swagger: "2.0"

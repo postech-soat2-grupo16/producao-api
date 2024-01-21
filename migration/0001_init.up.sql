@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS producao_pedidos (
-                                                pedido_id bigserial NOT NULL,
+                                                pedido_id varchar(255) NOT NULL,
                                                 status varchar(255) NOT NULL,
     created_at timestamptz NULL,
     updated_at timestamptz NULL,

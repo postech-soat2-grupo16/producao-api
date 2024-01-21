@@ -17,7 +17,7 @@ const (
 )
 
 type ProducaoPedido struct {
-	PedidoID  uint32 `gorm:"primary_key;not null;"`
+	PedidoID  string `gorm:"primary_key;not null;"`
 	Status    string `gorm:"size:100;not null;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time

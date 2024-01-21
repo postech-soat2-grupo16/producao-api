@@ -30,7 +30,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Get all producao_pedidos",
                 "operationId": "get-all-producao_pedidos",
@@ -59,7 +59,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "New producaopedido",
                 "operationId": "create-producaopedido",
@@ -93,7 +93,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Get a producaopedido by ID",
                 "operationId": "get-producaopedido-by-id",
@@ -123,7 +123,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Update a producaopedido",
                 "operationId": "update-producaopedido",
@@ -165,7 +165,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Delete a producaopedido by ID",
                 "operationId": "delete-producaopedido-by-id",
@@ -194,7 +194,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "pedido_id": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
