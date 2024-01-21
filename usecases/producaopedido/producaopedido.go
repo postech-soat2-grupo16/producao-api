@@ -32,7 +32,7 @@ func (p UseCase) List() ([]entities.ProducaoPedido, error) {
 	return pedidos, err
 }
 
-func (p UseCase) GetByID(pedidoID uint32) (*entities.ProducaoPedido, error) {
+func (p UseCase) GetByID(pedidoID string) (*entities.ProducaoPedido, error) {
 	result, err := p.producaoPedidoGateway.GetByID(pedidoID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -66,7 +66,7 @@ func (p UseCase) GetByStatus(status string) ([]entities.ProducaoPedido, error) {
 	return result, nil
 }
 
-func (p UseCase) Create(pedidoID uint32) (*entities.ProducaoPedido, error) {
+func (p UseCase) Create(pedidoID string) (*entities.ProducaoPedido, error) {
 	pedido := entities.ProducaoPedido{
 		PedidoID: pedidoID,
 		Status:   entities.StatusPedidoCriado,
@@ -84,7 +84,7 @@ func (p UseCase) Create(pedidoID uint32) (*entities.ProducaoPedido, error) {
 	return result, nil
 }
 
-func (p UseCase) Update(pedidoID uint32, status string) (*entities.ProducaoPedido, error) {
+func (p UseCase) Update(pedidoID string, status string) (*entities.ProducaoPedido, error) {
 	pedido, err := p.producaoPedidoGateway.GetByID(pedidoID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -108,7 +108,7 @@ func (p UseCase) Update(pedidoID uint32, status string) (*entities.ProducaoPedid
 	return result, nil
 }
 
-func (p UseCase) Delete(pedidoID uint32) (*entities.ProducaoPedido, error) {
+func (p UseCase) Delete(pedidoID string) (*entities.ProducaoPedido, error) {
 	pedido, err := p.producaoPedidoGateway.GetByID(pedidoID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

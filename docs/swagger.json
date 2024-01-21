@@ -22,7 +22,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Get all producao_pedidos",
                 "operationId": "get-all-producao_pedidos",
@@ -51,7 +51,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "New producaopedido",
                 "operationId": "create-producaopedido",
@@ -85,7 +85,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Get a producaopedido by ID",
                 "operationId": "get-producaopedido-by-id",
@@ -115,7 +115,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Update a producaopedido",
                 "operationId": "update-producaopedido",
@@ -157,7 +157,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Items"
+                    "ProducaoPedidos"
                 ],
                 "summary": "Delete a producaopedido by ID",
                 "operationId": "delete-producaopedido-by-id",
@@ -186,7 +186,7 @@
             "type": "object",
             "properties": {
                 "pedido_id": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
