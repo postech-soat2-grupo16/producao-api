@@ -61,5 +61,3 @@ migrate-up: ## Execute the database schema and seeds
 .PHONY: migrate-drop
 migrate-drop: ## Drop the database schema
 	migrate -path migration -database "$(DB_URL)" -verbose drop
-
-	@make db-reset; go test -count=1 -coverprofile coverage.out -coverpkg=./... ./... cat coverage.out | grep -v "mocks" | grep -v "othername" > coverage.final.out
