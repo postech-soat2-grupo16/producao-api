@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/aws/aws-sdk-go/service/sqs"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -19,22 +20,27 @@ func SetupDB() *gorm.DB {
 	return db
 }
 
-func SetupRouter(db *gorm.DB) *chi.Mux {
+func SetupQueue() *sqs.SQS {
+	return external.GetSqsClient()
+}
+
+func SetupRouter(db *gorm.DB, queue *sqs.SQS) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(commonMiddleware)
 
-	mapRoutes(r, db)
+	mapRoutes(r, db, queue)
 
 	return r
 }
 
-func mapRoutes(r *chi.Mux, orm *gorm.DB) {
+func mapRoutes(r *chi.Mux, orm *gorm.DB, queue *sqs.SQS) {
 	// Swagger
 	r.Get("/swagger/*", httpSwagger.Handler())
 
 	// Injections
 	// Gateways
 	producaoPedidoGateway := producaopedidoGateway.NewGateway(orm)
+	//queueGateway := message.NewGateway(queue)
 	// Use cases
 	producaoPedidoUseCase := producaopedido.NewUseCase(producaoPedidoGateway)
 	// Handlers

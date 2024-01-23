@@ -71,3 +71,10 @@ variable "db_url" {
   sensitive   = true
   default     = ""
 }
+
+variable "sqs_url" {
+  description = "SQS Pagamentos URL"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
