@@ -12,3 +12,7 @@ type ProducaoPedidoGatewayI interface {
 	GetAll() ([]entities.ProducaoPedido, error)
 	GetByStatus(category string) ([]entities.ProducaoPedido, error)
 }
+
+type QueueGatewayI interface {
+	SendMessage(producaopedido *entities.ProducaoPedido) error
+}
