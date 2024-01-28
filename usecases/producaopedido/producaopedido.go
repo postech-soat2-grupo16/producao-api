@@ -14,11 +14,13 @@ import (
 
 type UseCase struct {
 	producaoPedidoGateway interfaces.ProducaoPedidoGatewayI
+	messageGateway        interfaces.QueueGatewayI
 }
 
-func NewUseCase(producaoPedidoGateway interfaces.ProducaoPedidoGatewayI) UseCase {
+func NewUseCase(producaoPedidoGateway interfaces.ProducaoPedidoGatewayI, messageGateway interfaces.QueueGatewayI) UseCase {
 	return UseCase{
 		producaoPedidoGateway: producaoPedidoGateway,
+		messageGateway:        messageGateway,
 	}
 }
 
@@ -105,6 +107,9 @@ func (p UseCase) Update(pedidoID string, status string) (*entities.ProducaoPedid
 		log.Println(err)
 		return nil, err
 	}
+
+	p.messageGateway.SendMessage(result)
+
 	return result, nil
 }
 

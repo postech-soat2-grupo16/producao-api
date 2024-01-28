@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/aws/aws-sdk-go/service/sqs"
+	"github.com/postech-soat2-grupo16/producao-api/gateways/message"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -40,9 +41,10 @@ func mapRoutes(r *chi.Mux, orm *gorm.DB, queue *sqs.SQS) {
 	// Injections
 	// Gateways
 	producaoPedidoGateway := producaopedidoGateway.NewGateway(orm)
+	messageGateway := message.NewGateway(queue)
 	//queueGateway := message.NewGateway(queue)
 	// Use cases
-	producaoPedidoUseCase := producaopedido.NewUseCase(producaoPedidoGateway)
+	producaoPedidoUseCase := producaopedido.NewUseCase(producaoPedidoGateway, messageGateway)
 	// Handlers
 	_ = controllers.NewProducaoPedidoController(producaoPedidoUseCase, r)
 }
