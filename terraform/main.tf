@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "tg_producao_api" {
     enabled             = true
     interval            = 30
     matcher             = "200-299"
-    path                = "/producao_pedidos/healthcheck"
+    path                = "/producao_pedidos"
     port                = "traffic-port"
     protocol            = "HTTP"
     timeout             = 5
