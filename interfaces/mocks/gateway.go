@@ -53,8 +53,3 @@ func (m *MockProducaoPedidoGateway) GetByStatus(status string) ([]entities.Produ
 	}
 	return args.Get(0).([]entities.ProducaoPedido), args.Error(1)
 }
-
-func (m *MockProducaoPedidoGateway) SendMessage(producaopedido *entities.ProducaoPedido) error {
-	args := m.Called(producaopedido)
-	return args.Error(0)
-}

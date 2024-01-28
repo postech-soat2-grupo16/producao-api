@@ -8,16 +8,30 @@ import (
 	"os"
 )
 
+type GatewayInterface interface {
+	SendMessage(order *entities.ProducaoPedido) error
+}
+
 type Gateway struct {
 	queueURL string
 	queue    *sqs.SQS
 }
 
-func NewGateway(queueClient *sqs.SQS) *Gateway {
+type GatewayMock struct {
+}
+
+func NewGateway(queueClient *sqs.SQS) GatewayInterface {
+	if queueClient == nil {
+		return NewGatewayMock()
+	}
 	return &Gateway{
 		queueURL: os.Getenv("QUEUE_URL"),
 		queue:    queueClient,
 	}
+}
+
+func NewGatewayMock() *GatewayMock {
+	return &GatewayMock{}
 }
 
 func (g *Gateway) SendMessage(producaopedido *entities.ProducaoPedido) error {
@@ -40,5 +54,9 @@ func (g *Gateway) SendMessage(producaopedido *entities.ProducaoPedido) error {
 	messageResult, err := g.queue.SendMessage(message)
 	fmt.Printf("Message result: %s\n", messageResult)
 
+	return nil
+}
+
+func (g *GatewayMock) SendMessage(order *entities.ProducaoPedido) error {
 	return nil
 }
