@@ -2,6 +2,7 @@ package producaopedido
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"strings"
 
@@ -84,7 +85,7 @@ func (p UseCase) Create(pedidoID string) (*entities.ProducaoPedido, error) {
 		return nil, err
 	}
 
-	log.Printf("Produção Criada para o Pedido %s", result.PedidoID)
+	fmt.Printf("Produção Criada para o Pedido %s", result.PedidoID)
 
 	return result, nil
 }
@@ -111,7 +112,7 @@ func (p UseCase) Update(pedidoID string, status string) (*entities.ProducaoPedid
 		return nil, err
 	}
 
-	log.Printf("Status da produção do pedido %s atualizado para %s", result.PedidoID, result.Status)
+	fmt.Printf("Status da produção do pedido %s atualizado para %s", result.PedidoID, result.Status)
 
 	p.messageGateway.SendMessage(result)
 

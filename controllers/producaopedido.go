@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 
 	producaopedido "github.com/postech-soat2-grupo16/producao-api/adapters/producaopedido"
@@ -106,7 +106,7 @@ func (c *ProducaoPedidoController) Create() http.HandlerFunc {
 			return
 		}
 
-		log.Printf("Produção Recebida para o Pedido %s", i.PedidoID)
+		fmt.Printf("Produção Recebida para o Pedido %s", i.PedidoID)
 
 		producaoPedido, err := c.useCase.Create(i.PedidoID)
 		if err != nil {
