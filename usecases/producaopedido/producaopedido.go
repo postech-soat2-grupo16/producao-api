@@ -83,6 +83,9 @@ func (p UseCase) Create(pedidoID string) (*entities.ProducaoPedido, error) {
 		log.Println(err)
 		return nil, err
 	}
+
+	log.Printf("Produção Criada para o Pedido %s", result.PedidoID)
+
 	return result, nil
 }
 
@@ -107,6 +110,8 @@ func (p UseCase) Update(pedidoID string, status string) (*entities.ProducaoPedid
 		log.Println(err)
 		return nil, err
 	}
+
+	log.Printf("Status da produção do pedido %s atualizado para %s", result.PedidoID, result.Status)
 
 	p.messageGateway.SendMessage(result)
 
