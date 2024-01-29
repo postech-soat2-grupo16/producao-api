@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/postech-soat2-grupo16/producao-api/entities"
-	"log"
 	"os"
 )
 
@@ -52,9 +51,9 @@ func (g *Gateway) SendMessage(producaopedido *entities.ProducaoPedido) error {
 		MessageBody: &stringMessage,
 	}
 
-	log.Printf("Enviando Mensagem - Produção: %v\n", message)
+	fmt.Printf("Enviando Mensagem - Produção: %v\n", message)
 	messageResult, err := g.queue.SendMessage(message)
-	log.Printf("Mensagem enviada Mensagem - Produção: %v\n", messageResult)
+	fmt.Printf("Mensagem enviada Mensagem - Produção: %v\n", messageResult)
 
 	return nil
 }
