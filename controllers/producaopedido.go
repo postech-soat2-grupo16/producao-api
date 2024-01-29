@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	producaopedido "github.com/postech-soat2-grupo16/producao-api/adapters/producaopedido"
@@ -104,6 +105,9 @@ func (c *ProducaoPedidoController) Create() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+
+		log.Printf("Produção Recebida para o Pedido %s", i.PedidoID)
+
 		producaoPedido, err := c.useCase.Create(i.PedidoID)
 		if err != nil {
 			if util.IsDomainError(err) {
@@ -114,6 +118,7 @@ func (c *ProducaoPedidoController) Create() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(producaoPedido)
 	}
